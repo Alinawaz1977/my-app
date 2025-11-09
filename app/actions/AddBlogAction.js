@@ -3,6 +3,7 @@ import { v2 as cloudinary } from "cloudinary"
 import connectCloudinary from "@/lib/config/cloudinary";
 import connectDb from "@/lib/config/db";
 import blogModel from "@/models/BlogModel";
+import { NextResponse } from "next/server";
 
 export async function onBlogActionSubmit(formData) {
     try {
@@ -31,10 +32,8 @@ export async function onBlogActionSubmit(formData) {
             featuredImage: cloudinaryUrl.secure_url
         })
 
-
-        return console.log({ success: true, message: "Blog uploaded successfully" });
+        return NextResponse.json({ success: true, message: "Blog uploaded successfully" });
     } catch (error) {
-        console.error(error);
-        return { success: false, message: error.message };
+        return NextResponse.json({ success: false, message: error.message });
     }
 }

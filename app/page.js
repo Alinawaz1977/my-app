@@ -1,10 +1,19 @@
-import Hero from "@/components/Hero";
-import Navbar from "@/components/Navbar";
+import "./globals.css";
+import AppContextProvider from "@/context/AppContext";
 
-export default function Home() {
+export const metadata = {
+  title: "My Next.js App",
+  description: "Using Context API with Next.js",
+};
+
+export default function RootLayout({ children }) {
   return (
-    <div>
-      <Hero />
-    </div>
+    <html lang="en">
+      <body>
+        <AppContextProvider>
+          {children}
+        </AppContextProvider>
+      </body>
+    </html>
   );
 }

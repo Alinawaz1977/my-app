@@ -1,46 +1,81 @@
-"use client"
-import { useForm } from "react-hook-form"
-import React from 'react'
-import axios from "axios"
+"use client";
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import Image from "next/image";
+import { onBlogActionSubmit } from "@/app/actions/AddBlogAction";
+import { toast } from "react-toastify";
+
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const AddBlog = () => {
-  const { register, handleSubmit } = useForm()
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm()
+  const [content, setContent] = useState("");
+  const [image, setimage] = useState('')
+  console.log(image);
   const onSubmit = async (data) => {
-    const formData = new FormData()
-    formData.append("title", data.title)
-    formData.append("content", data.content)
-    formData.append("category", data.category)
-    formData.append("featuredImage", data.featuredImage[0]) // actual file
+    console.log(data.featuredImage[0]);
+
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("content", content);
+    formData.append("category", data.category);
+    formData.append("featuredImage", data.featuredImage[0]);
 
     try {
-      const response = await axios.post("/api/addblog", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      console.log(response.data)
+      const response = await axios.post("/api/addblog", formData
+      );
+      toast.success("succeed")
+      console.log(response.data);
     } catch (error) {
-      console.log(error.message)
+      toast.error(error.message);
     }
-  }
+    reset()
+    setContent("")
+    setimage("")
+  };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("title")} placeholder="title" type="text" />
-        <input {...register("featuredImage")} type="file" />
-        <input {...register("content")} placeholder="content" type="text" />
-        <select {...register("category")}>
-          <option>education</option>
-          <option>sport</option>
-          <option>news</option>
-          <option>health</option>
+    <div className="p-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <input {...register("title")} placeholder="Title" className="border p-2 rounded" />
+        <label className="h-[20vw] relative flex justify-center items-center border border-dotted border-gray-500 w-[20vw]" htmlFor="featureImage">
+          {image ? <Image className="object-cover" fill={true} src={URL.createObjectURL(image)} alt="feaaturedImage" /> : <p></p>}
+          <input id="featureImage"  {...register("featuredImage")} type="file" className="border text-sm w-1/2 p-2   " onChange={(e) => setimage(e.target.files[0])}
+          // const file = e.target.files[0];
+          // if (!file) return;
+          // setimage(URL.createObjectURL(file)); // ✅ create preview URL
+
+          />
+        </label>
+        <JoditEditor
+          value={content}
+          onBlur={(newContent) => setContent(newContent)}
+          tabIndex={1}
+        />
+        <select {...register("category")} className="border p-2 rounded">
+          <option >Sport</option>
+          <option >Education</option>
+          <option>News</option>
+          <option>Health</option>
         </select>
-        <button className="bg-green-600 text-white px-4 py-1.5 rounded-sm" type="submit">
-          submit
+
+        <button
+          type="submit"
+          className="bg-green-600 text-white px-4 py-2 rounded"
+        >
+          Submit
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default AddBlog
+export default AddBlog;

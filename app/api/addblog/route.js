@@ -15,6 +15,7 @@ export async function POST(req) {
         const title = formData.get("title")
         const content = formData.get("content")
         const category = formData.get("category")
+        console.log(file, title, content, category);
 
         if (!file) throw new Error("No file uploaded");
 
