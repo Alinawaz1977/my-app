@@ -1,3 +1,4 @@
+import Hero from "@/components/Hero";
 import "./globals.css";
 import AppContextProvider from "@/context/AppContext";
 
@@ -10,9 +11,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <AppContextProvider>
           {children}
-        </AppContextProvider>
+          <Hero/>
       </body>
     </html>
   );

@@ -1,16 +1,17 @@
 "use client";
-
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { userAuthActoin } from "../actions/userAuthActions";
 import axios from "axios";
 import { AppContext } from "@/context/AppContext";
+import { useRouter } from "next/navigation";
 
 export default function AuthForm() {
     const { token, settoken } = useContext(AppContext)
     const [isLogin, setIsLogin] = useState(true);
-
+    const router = useRouter()
+    console.log(token);
     const {
         register,
         handleSubmit,
@@ -21,24 +22,32 @@ export default function AuthForm() {
             if (!isLogin) {
                 try {
                     const response = await axios.post("/api/userSignup", data)
-                    // settoken(response.data.token)
-                    toast.success("succeed")
-                    console.log(response.data.token);
-                    
+                    if (response.data.success) {
+                        toast.success(response.data.message)
+                        settoken(response.data.token)
+                        localStorage.setItem("token", response.data.token)
+                        console.log(localStorage.getItem("token"));   
+                    }
+                    else {
+                        toast.error(response.data.message)
+                    }
                 } catch (error) {
                     toast.error(error.message)
                 }
-
             } else {
-                const formData = new FormData()
-                formData.append("email", data.email)
-                formData.append("password", data.password)
-                userAuthActoin(formData)
-                const response = await userAuthActoin(formData)
-                if (response?.success) {
-                    console.log(response.message);
-                } else {
-                    toast.error(response.message);
+                try {
+                    const response = await axios.post("/api/userLogin", data)
+                    if (response.data.success) {
+                        toast.success(response.data.message)
+                        settoken(response.data.token)
+                        localStorage.setItem("token", response.data.token)  
+                        router.push("/")
+                    }
+                    else {
+                        toast.error(response.data.message)
+                    }
+                } catch (error) {
+                    toast.error(error.message)
                 }
             }
         } catch (error) {
@@ -48,7 +57,7 @@ export default function AuthForm() {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
+            <div className="w-full max-w-md bg-white rounded-2xl mx-6 shadow-md p-8">
                 <h2 className="text-2xl font-semibold text-center mb-6">
                     {isLogin ? "Login to Your Account" : "Create a New Account"}
                 </h2>
@@ -74,7 +83,6 @@ export default function AuthForm() {
                             )}
                         </div>
                     )}
-
                     <div>
                         <label className="block mb-1 text-sm font-medium text-gray-600">
                             Email
@@ -90,7 +98,6 @@ export default function AuthForm() {
                             </p>
                         )}
                     </div>
-
                     <div>
                         <label className="block mb-1 text-sm font-medium text-gray-600">
                             Password
@@ -112,10 +119,9 @@ export default function AuthForm() {
                             </p>
                         )}
                     </div>
-
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                        className="w-full bg-[#7e39f2] text-white py-2 rounded-lg transition"
                     >
                         {isLogin ? "Login" : "Sign Up"}
                     </button>

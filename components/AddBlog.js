@@ -1,15 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Image from "next/image";
 import { onBlogActionSubmit } from "@/app/actions/AddBlogAction";
 import { toast } from "react-toastify";
+import { AppContext } from "@/context/AppContext";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const AddBlog = () => {
+  const { token } = useContext(AppContext)
   const {
     register,
     handleSubmit,
@@ -21,8 +23,6 @@ const AddBlog = () => {
   const [image, setimage] = useState('')
   console.log(image);
   const onSubmit = async (data) => {
-    console.log(data.featuredImage[0]);
-
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("content", content);
@@ -30,10 +30,13 @@ const AddBlog = () => {
     formData.append("featuredImage", data.featuredImage[0]);
 
     try {
-      const response = await axios.post("/api/addblog", formData
+      const response = await axios.post("/api/addblog", formData, { headers: { token: token } }
       );
-      toast.success("succeed")
-      console.log(response.data);
+      if (response.data.success) {
+        toast.success(response.data.message)
+      } else {
+        toast.error(response.data.error)
+      }
     } catch (error) {
       toast.error(error.message);
     }
@@ -49,10 +52,6 @@ const AddBlog = () => {
         <label className="h-[20vw] relative flex justify-center items-center border border-dotted border-gray-500 w-[20vw]" htmlFor="featureImage">
           {image ? <Image className="object-cover" fill={true} src={URL.createObjectURL(image)} alt="feaaturedImage" /> : <p></p>}
           <input id="featureImage"  {...register("featuredImage")} type="file" className="border text-sm w-1/2 p-2   " onChange={(e) => setimage(e.target.files[0])}
-          // const file = e.target.files[0];
-          // if (!file) return;
-          // setimage(URL.createObjectURL(file)); // ✅ create preview URL
-
           />
         </label>
         <JoditEditor

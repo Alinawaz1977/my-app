@@ -4,11 +4,10 @@ import { createContext, useState } from "react";
 // Create the context
 export const AppContext = createContext({});
 const AppContextProvider = ({ children }) => {
-    const [token, settoken] = useState('')
+    const [token, settoken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : null)
     const value = {
-       token,settoken
+        token, settoken
     };
-
     return (
         <AppContext.Provider value={value}>
             {children}

@@ -5,26 +5,28 @@ import connectCloudinary from "@/lib/config/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 import blogModel from "@/models/BlogModel";
 import connectDb from "@/lib/config/db";
+import { getTokenData } from "@/utils/getTokenData";
 
 export async function POST(req) {
     try {
         connectCloudinary();
         connectDb()
+        // const user = await getTokenData(req)
+        // if (user instanceof NextResponse) return user
+        // console.log(user);
+        
         const formData = await req.formData();
         const file = formData.get("featuredImage");
-        const title = formData.get("title")
-        const content = formData.get("content")
-        const category = formData.get("category")
-        console.log(file, title, content, category);
+        const title = formData.get("title");
+        const content = formData.get("content");
+        const category = formData.get("category");
 
         if (!file) throw new Error("No file uploaded");
 
 
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        // const base64String = buffer.toString("base64");
         const base64String = buffer.toString("base64")
-        // console.log(base64String);
         const uploadUrl = `data:${file.type};base64,${base64String}`
         const cloudinaryUrl = await cloudinary.uploader.upload(uploadUrl, { resource_type: "image" })
         // console.log(cloudinaryUrl.secure_url);
@@ -37,9 +39,7 @@ export async function POST(req) {
 
         return NextResponse.json({
             success: true,
-            message: "File uploaded successfully",
-            // imageUrl: cloudinaryRes.secure_url,
-            blogModel
+            message: "Blog Uploaded Successfully",
         });
     } catch (error) {
         console.error("File upload error:", error);
