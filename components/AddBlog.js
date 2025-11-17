@@ -7,6 +7,9 @@ import Image from "next/image";
 import { onBlogActionSubmit } from "@/app/actions/AddBlogAction";
 import { toast } from "react-toastify";
 import { AppContext } from "@/context/AppContext";
+import { useRouter } from "next/navigation";
+import animationData from "@/public/Insider-loading.json"
+import Lottie from "lottie-react";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
@@ -17,12 +20,19 @@ const AddBlog = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    formState: { isSubmitting, errors },
   } = useForm()
   const [content, setContent] = useState("");
   const [image, setimage] = useState('')
+  const router = useRouter()
   console.log(image);
   const onSubmit = async (data) => {
+    if (!token) {
+      toast.error("You Need to Login ")
+      return router.push("/login")
+    }
+    console.log("asdfhoifdhi");
+
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("content", content);
@@ -65,13 +75,14 @@ const AddBlog = () => {
           <option>News</option>
           <option>Health</option>
         </select>
-
-        <button
-          type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded"
-        >
-          Submit
-        </button>
+        {isSubmitting ? <Lottie className="w-50" animationData={animationData} loop={true} /> :
+          <button
+            type="submit"
+            className="bg-green-600 text-white px-4 py-2 rounded"
+          >
+            Submit
+          </button>
+        }
       </form>
     </div>
   );

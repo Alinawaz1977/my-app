@@ -17,8 +17,10 @@ const Navbar = () => {
                 {token ? <div className='h-10 w-10 rounded-full bg-amber-950 relative' >
                     {visible ?
                         <div className='h-30 w-40 rounded-md flex flex-col justify-center items-center bg-gray-300 absolute left-[-120px] bottom-[-120px]' >
-                            <h1 onClick={
+                            <h1 onClick={()=>{
                                 localStorage.removeItem("token")
+                                router.push("/login")
+                            }
                             } >log out</h1>
                             <h1>home</h1>
                             <h1>home</h1>

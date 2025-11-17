@@ -1,23 +1,25 @@
 import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema({
-    userid: {
-        type: String
+    userData: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
     title: {
-        require: true,
+        required: true,
         type: String
     },
-    cetegory: {
-        require: true,
-        type: String
+    category: {
+        type: String,
+        required: true,
     },
     featuredImage: {
-        require: true,
-        type: String
+        type: String,
+        required: true
     },
     content: {
-        require: true,
+        required: true,
         type: String,
     },
     likes: {
