@@ -36,7 +36,7 @@ const UpdateProfile = () => {
             const response = await axios.post("/api/userProfileUpdate", formData)
         } catch (error) {
             console.log(error.message);
-            
+
         }
     }
     useEffect(() => {
