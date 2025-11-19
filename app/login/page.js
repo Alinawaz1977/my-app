@@ -18,6 +18,7 @@ export default function AuthForm() {
         formState: { errors },
     } = useForm();
     const onSubmit = async (data) => {
+
         try {
             if (!isLogin) {
                 try {
@@ -26,7 +27,7 @@ export default function AuthForm() {
                         toast.success(response.data.message)
                         settoken(response.data.token)
                         localStorage.setItem("token", response.data.token)
-                        console.log(localStorage.getItem("token"));   
+                        console.log(localStorage.getItem("token"));
                     }
                     else {
                         toast.error(response.data.message)
@@ -40,7 +41,7 @@ export default function AuthForm() {
                     if (response.data.success) {
                         toast.success(response.data.message)
                         settoken(response.data.token)
-                        localStorage.setItem("token", response.data.token)  
+                        localStorage.setItem("token", response.data.token)
                         router.push("/")
                     }
                     else {

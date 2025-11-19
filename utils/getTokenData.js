@@ -2,7 +2,7 @@ import { error } from "console"
 import jwt from "jsonwebtoken"
 import { NextResponse } from "next/server"
 
-export async function checkUserValidation(req) {
+export async function checkUserValidation(req) {    
     try {
         const token = req.headers.get("token")
         if (!token) {

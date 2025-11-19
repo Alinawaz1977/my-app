@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 export const AppContext = createContext({});
 const AppContextProvider = ({ children }) => {
     const [blogLists, setblogLists] = useState([])
+    const [token, settoken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : null)
     const fetchBlogData = async () => {
         try {
             const response = await axios.post("/api/listBlogs", {}, { headers: { token: token } })
@@ -17,7 +18,6 @@ const AppContextProvider = ({ children }) => {
             toast.error(error.message)
         }
     }
-    const [token, settoken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : null)
     const value = {
         token, settoken, blogLists
     };
