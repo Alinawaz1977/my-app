@@ -23,12 +23,11 @@ const page = () => {
 
     const { blogLists, token } = useContext(AppContext)
     const [content, setcontent] = useState('')
-    console.log(content);
-    
+
     const [currentBlog, setcurrentBlog] = useState(null)
     const [newFeaturedImage, setnewFeaturedImage] = useState('')
     // console.log(newFeaturedImage);
-    
+
 
     const params = useParams()
 
@@ -55,12 +54,17 @@ const page = () => {
     }, [currentBlog])
 
     const onSubmit = async (data) => {
-        data.content=content
-        featureImage=data.featureImage[0]
-        console.log(data);
+        data.content = content
+        const formData = new FormData()
+        formData.append("featuredImage", newFeaturedImage)
+        formData.append("featuredImage", newFeaturedImage)
+        formData.append("content", content)
+        formData.append("title", data.title)
+        formData.append("category", data.category)
+        formData.append("blogId",params.slug)
         try {
-            const response = await axios.post("/api/userUpdateBlog", featureImage)
-            // console.log(response.data);
+            const response = await axios.post("/api/userUpdateBlog", formData,{headers:{token:token}})
+            console.log(response.data);
         } catch (error) {
             toast.error(error.message)
         }
@@ -88,7 +92,7 @@ const page = () => {
                         <Image fill={true} className='object-cover' src={newFeaturedImage ? URL.createObjectURL(newFeaturedImage) : currentBlog?.featuredImage} alt='featuredImage' />
                     </div>
                     <label htmlFor="featuredImage">
-                        <input  {...register("featuredImage")} onChange={(e) => setnewFeaturedImage(e.target.files[0])} id='featuredImage' className='  w-50 border border-gray-300 
+                        <input  {...register("featuredImage")} onChange={(e) => setnewFeaturedImage(e.target.files[0])} id='featuredImage' className=' hidden w-50 border border-gray-300 
                         ' type="file" />
                         <p className='bg-blue-600 font-medium px-3 py-1 w-fit text-white rounded-md mt-2' >Update FeaturedImage</p>
                     </label>
@@ -96,7 +100,7 @@ const page = () => {
                     <JoditEditor
                         {...register("content")}
                         value={content}
-    onChange={newContent => setcontent(newContent)}
+                        onChange={newContent => setcontent(newContent)}
                     />
                     <button className='text-white bg-[#7e39f2] px-2 py-1 rounded-md my-2 font-medium' type="submit">Update Blog</button>
                 </form>
