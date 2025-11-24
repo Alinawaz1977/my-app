@@ -8,6 +8,8 @@ import { useParams } from 'next/navigation'
 import { AppContext } from '@/context/AppContext'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const page = () => {
 
@@ -20,11 +22,15 @@ const page = () => {
     } = useForm()
 
     const { blogLists, token } = useContext(AppContext)
+    const [content, setcontent] = useState('')
+    console.log(content);
+    
     const [currentBlog, setcurrentBlog] = useState(null)
     const [newFeaturedImage, setnewFeaturedImage] = useState('')
+    // console.log(newFeaturedImage);
+    
 
     const params = useParams()
-    console.log(params.slug);
 
     const fetchBlogData = () => {
         if (blogLists) {
@@ -48,8 +54,16 @@ const page = () => {
         }
     }, [currentBlog])
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        data.content=content
+        featureImage=data.featureImage[0]
         console.log(data);
+        try {
+            const response = await axios.post("/api/userUpdateBlog", featureImage)
+            // console.log(response.data);
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
     return (
@@ -74,13 +88,15 @@ const page = () => {
                         <Image fill={true} className='object-cover' src={newFeaturedImage ? URL.createObjectURL(newFeaturedImage) : currentBlog?.featuredImage} alt='featuredImage' />
                     </div>
                     <label htmlFor="featuredImage">
-                        <input onChange={(e) => setnewFeaturedImage(e.target.files[0])} id='featuredImage' className='hidden  w-50 border border-gray-300 
-                    ' type="file" />
+                        <input  {...register("featuredImage")} onChange={(e) => setnewFeaturedImage(e.target.files[0])} id='featuredImage' className='  w-50 border border-gray-300 
+                        ' type="file" />
                         <p className='bg-blue-600 font-medium px-3 py-1 w-fit text-white rounded-md mt-2' >Update FeaturedImage</p>
                     </label>
                     <p className='text-xl my-2' >Blog Content</p>
                     <JoditEditor
                         {...register("content")}
+                        value={content}
+    onChange={newContent => setcontent(newContent)}
                     />
                     <button className='text-white bg-[#7e39f2] px-2 py-1 rounded-md my-2 font-medium' type="submit">Update Blog</button>
                 </form>
