@@ -7,9 +7,6 @@ const Navbar = () => {
     const router = useRouter()
     const { token, settoken, setsearchValue } = useContext(AppContext)
     const [visible, setvisible] = useState(false)
-    // window.addEventListener("click",function(){
-    //     setvisible(false)
-    // })
     return (
         <div className='flex mx-4 my-3 border-b border-gray-300 pb-5 justify-between items-center' >
             <Link href={"/"} className='flex gap-1 items-center' >
@@ -17,7 +14,7 @@ const Navbar = () => {
                 <p className='font-bold text-2xl' >Blog</p>
             </Link>
             <input onChange={(e) => setsearchValue(e.target.value)} className='border rounded-full border-gray-500 w-1/2 px-2 py-1' type="text" placeholder='seach anything' />
-            <div onClick={() => setvisible(true)}>
+            <div onClick={() => setvisible(!visible)}>
                 {token ? <div className='h-10 w-10 rounded-full bg-amber-950 relative' >
                     {visible ?
                         <div className='h-45 p-2 w-60 rounded-md flex flex-col bg-white border border-gray-200 shadow-2xl z-10 absolute left-[-200px]  bottom-[-180px]' >
