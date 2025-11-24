@@ -1,25 +1,61 @@
 "use client";
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useActionState, useState } from "react";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 // Create the context
 export const AppContext = createContext({});
 const AppContextProvider = ({ children }) => {
     const [blogLists, setblogLists] = useState([])
-    const [token, settoken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : null)
+    const [searchValue, setsearchValue] = useState('')
+    console.log(searchValue);
+    
+    const [allComments, setallComments] = useState([])
+    const [token, settoken] = useState(null)
     const fetchBlogData = async () => {
         try {
-            const response = await axios.post("/api/listBlogs", {}, { headers: { token: token } })
+            const response = await axios.get("/api/listBlogs")
             if (response.data.success) {
-                setblogLists(response.data.allBlogs)
+                setblogLists(response.data.blogLists)
+            } else {
+                toast.error(response.data.error)
             }
         } catch (error) {
             toast.error(error.message)
         }
     }
+
+    // for all comments
+    const fetchAllComments = async () => {
+        try {
+            const response = await axios.get("/api/listComments")
+            if (response.data.success) {
+                setallComments(response.data.allComments)
+            } else {
+                toast.error(response.data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    useEffect(() => {
+        const savedToken = localStorage.getItem("token")
+        if (savedToken) settoken(savedToken)
+    }, [])
+
+
+    useEffect(() => {
+        fetchBlogData()
+    }, [])
+    useEffect(() => {
+        fetchAllComments()
+    }, [])
+
+
     const value = {
-        token, settoken, blogLists
+        token, settoken, blogLists,allComments,searchValue,setsearchValue
     };
     return (
         <AppContext.Provider value={value}>

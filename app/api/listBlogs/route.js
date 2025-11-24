@@ -1,15 +1,16 @@
 import connectDb from "@/lib/config/db";
 import blogModel from "@/models/BlogModel";
-import { checkUserValidation } from "@/utils/getTokenData";
 import { NextResponse } from "next/server";
+import userModel from "@/models/userModel";
 
 // app/api/my-endpoint/route.js
 export async function GET(request) {
-    connectDb()
+    await connectDb()
     try {
-        const blogLists = await blogModel.find().populate("userData") 
+        const blogLists = await blogModel.find().populate("userData")
+        console.log(blogLists);
         return NextResponse.json({ success: true, blogLists })
     } catch (error) {
-        return NextResponse.json({success:false,message:error.message})
+        return NextResponse.json({ success: false, message: error.message })
     }
 }

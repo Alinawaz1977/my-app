@@ -56,8 +56,8 @@ const AddBlog = () => {
   };
 
   return (
-    <div className="p-6">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <div className="p-6 ">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex w-full md:w-[60vw] justify-center  flex-col gap-4">
         <input {...register("title")} placeholder="Title" className="border p-2 rounded" />
         <label className="h-[20vw] relative flex justify-center items-center border border-dotted border-gray-500 w-[20vw]" htmlFor="featureImage">
           {image ? <Image className="object-cover" fill={true} src={URL.createObjectURL(image)} alt="feaaturedImage" /> : <p></p>}
@@ -69,11 +69,12 @@ const AddBlog = () => {
           onBlur={(newContent) => setContent(newContent)}
           tabIndex={1}
         />
-        <select {...register("category")} className="border p-2 rounded">
+        <select  {...register("category")} className="border p-2 rounded">
           <option >Sport</option>
           <option >Education</option>
           <option>News</option>
           <option>Health</option>
+          <option>Entertainment</option>
         </select>
         {isSubmitting ? <Lottie className="w-50" animationData={animationData} loop={true} /> :
           <button

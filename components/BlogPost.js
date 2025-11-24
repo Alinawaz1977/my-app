@@ -5,13 +5,13 @@ const BlogPost = ({ image, title, logo, date, username }) => {
     return (
         <div className='flex gap-2' >
 
-            <div className='border p-3 w-[290px] rounded-2xl border-gray-300' >
-                <div className='flex gap-3 pb-5 items-center' >
-                    <img className='w-10 h-10 rounded-full object-cover' src="data:image/jpeg;base64,/9j/IxSpU0NaPJwfPLUjcRCDhFpHZ20ckqj62Tq58geVE8PGkdvLLmRxjB/AOdKlXQ/B9HGKiqQ6/mi1OAoIVOYOMnxqouJtdwv9PJA6c/tSpUBiwsr+eALoVmBIzncAUVHddndvIQqKdm0uDk+e1KlTCsLma2njdO0jA06sM/dPPzrIcX4XbwyssD60Iz2cY+kjlvnYUqVR9UqVkZJPsoZrYw3JzHIFzkMD08qeRAsDRPbsZd8za/0HLFKlXLGbZw5YpMC+XhydTsxzzyB+tdpUqtyZCj//2Q==" alt="logo" />
-                    <p className='text-xl' >Ali Nawaz</p>
+            <div className='border p-2 h-[322px] overflow-hidden w-[290px]  rounded-lg border-gray-300' >
+                <div className='flex gap-3 pb-3 items-center' >
+                    <img className='w-10 h-10 rounded-full object-top object-cover' src={logo} alt="logo" />
+                    <p className='text-lg' >{username}</p>
                 </div>
                 <div>
-                    <img className='rounded-lg w-full h-40 object-cover' src={image} alt="blog image" />
+                    <img className='rounded-lg w-full  h-40 object-cover' src={image} alt="blog image" />
                 </div>
                 <div className='mt-3' >
                     <div>
@@ -21,7 +21,7 @@ const BlogPost = ({ image, title, logo, date, username }) => {
                             date here 2024</div>
                     </div>
                 </div>
-                <div className='font-medium text-xl' >{title}</div>
+                <div className='font-medium text-md' >{title}</div>
             </div>
         </div>
     )

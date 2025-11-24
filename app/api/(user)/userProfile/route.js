@@ -11,7 +11,7 @@ export async function POST(req) {
             return NextResponse.json({ success: false, message: userValidation.message })
         }
         let user = await userModel.findById(userValidation.data.id)
-        return NextResponse.json({ success: true, user , message:"successfull" })
+        return NextResponse.json({ success: true, user, message: "successfull" })
     } catch (error) {
         return NextResponse.json({ success: false, message: error.message })
     }
