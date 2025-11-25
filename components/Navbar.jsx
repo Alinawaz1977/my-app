@@ -1,26 +1,51 @@
 "use client"
 import { AppContext } from '@/context/AppContext'
 import { useRouter } from 'next/navigation'
-import react, { useContext, useState } from 'react'
+import react, { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
+import axios from 'axios'
+import Image from 'next/image'
 const Navbar = () => {
     const router = useRouter()
     const { token, settoken, setsearchValue } = useContext(AppContext)
     const [visible, setvisible] = useState(false)
+    const [userProfile, setuserProfile] = useState({})
+
+    const fetchUserProfile = async () => {
+        try {
+            const response = await axios.post("/api/userProfile", {}, { headers: { token: token } })
+            if (response.data.success) {
+                setuserProfile(response.data.user)
+            } else {
+                toast.error(response.data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    useEffect(() => {
+        if (token) {
+            fetchUserProfile()
+        }
+    }, [token])
+
+
     return (
         <div className='flex mx-4 my-3 border-b border-gray-300 pb-5 justify-between items-center' >
             <Link href={"/"} className='flex gap-1 items-center' >
                 <p className='text-[#7e39f2] text-4xl font-bold'>G</p>
                 <p className='font-bold text-2xl' >Blog</p>
             </Link>
-            <input onChange={(e) => setsearchValue(e.target.value)} className='border rounded-full border-gray-500 w-1/2 px-2 py-1' type="text" placeholder='seach anything' />
+            <input onChange={(e) => setsearchValue(e.target.value)} className='outline-none border border-gray-300 rounded-full w-1/2 px-2 py-1' type="text" placeholder='seach anything' />
             <div onClick={() => setvisible(!visible)}>
-                {token ? <div className='h-10 w-10 rounded-full bg-amber-950 relative' >
+                {token ? <div className='h-10 w-10 rounded-full  relative' >
+                    <Image src={userProfile.profilePic} fill={true} className='rounded-full object-cover' />
                     {visible ?
                         <div className='h-45 p-2 w-60 rounded-md flex flex-col bg-white border border-gray-200 shadow-2xl absolute left-[-200px]  bottom-[-180px]' >
                             <div>
-                            <p className='text-2xl font-medium' >ali nawaz</p>
-                            <p>ali@gmail.com</p>
+                                <p className='text-2xl font-medium' >{userProfile.username}</p>
+                                <p>{userProfile.email}</p>
                             </div>
                             <div className='py-1
                             '>
@@ -32,7 +57,7 @@ const Navbar = () => {
                                     <svg className='w-6' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path></svg>
                                     <p>Add Blog</p>
                                 </Link>
-                                <div onClick={()=>{
+                                <div onClick={() => {
                                     localStorage.removeItem("token")
                                     router.push("/login")
                                 }} className='py-1 hover:bg-gray-200 rounded-lg flex gap-2' >
@@ -40,6 +65,7 @@ const Navbar = () => {
                                     <p>Logout</p>
                                 </div>
                             </div>
+                            <svg className='w-6 top-5 right-2   absolute ' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"></path></svg>
                         </div>
                         : null}
                 </div> : <button onClick={() => router.push("/login")} className='px-5 py-1 rounded-full text-white bg-[#7e39f2] ' >Log In</button>}

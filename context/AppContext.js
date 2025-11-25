@@ -10,7 +10,7 @@ const AppContextProvider = ({ children }) => {
     const [blogLists, setblogLists] = useState([])
     const [searchValue, setsearchValue] = useState('')
     console.log(searchValue);
-    
+
     const [allComments, setallComments] = useState([])
     const [token, settoken] = useState(null)
     const fetchBlogData = async () => {
@@ -55,7 +55,7 @@ const AppContextProvider = ({ children }) => {
 
 
     const value = {
-        token, settoken, blogLists,allComments,searchValue,setsearchValue
+        token, settoken, blogLists, allComments, searchValue, setsearchValue,fetchAllComments
     };
     return (
         <AppContext.Provider value={value}>

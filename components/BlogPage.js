@@ -6,15 +6,13 @@ import Comment from './Comment'
 import Navbar from './Navbar'
 import ShowComment from './ShowComment'
 
-const BlogPage = ({ title, relatedBlogs, blogComments, blogId, bloggerName, blogContent, featuredImage, userLogo, blogDate, }) => {
-  console.log(blogComments);
-
+const BlogPage = ({ title, relatedBlogs,blogComments, blogId, bloggerName, blogContent, featuredImage, userLogo, blogDate, }) => {
   return (
     <>
       <Navbar />
       <div className='flex gap-1.5' >
         <Sidebar />
-        <div className=' w-full md:w-[50vw] border px-4 mb-10   pb-5 pt-3 border-gray-300 min-h-screen ' >
+        <div className=' w-full md:w-[50vw] overflow-scroll h-screen border px-4 mb-10   pb-5 pt-3 border-gray-300 min-h-screen ' >
           <p className='text-2xl font-medium' >
             {title}
           </p>
@@ -34,13 +32,12 @@ const BlogPage = ({ title, relatedBlogs, blogComments, blogId, bloggerName, blog
 
           </div>
           <div>
-            <Comment blogId={blogId} />
+            <Comment  blogId={blogId} />
           </div>
           <div className='' >
             {
               blogComments.map((item, index) => (
                 <div key={index} >
-
                   <ShowComment commentUserLogo={item.userId.profilePic} comment={item.comment} commentUserName={item.userId.username} />
                 </div>
               ))

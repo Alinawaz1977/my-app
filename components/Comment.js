@@ -5,7 +5,7 @@ import React, { useContext } from 'react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 const Comment = ({ blogId }) => {
-    const { token } = useContext(AppContext)
+    const { token, fetchAllComments } = useContext(AppContext)
     const [comment, setcomment] = useState('')
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -13,8 +13,8 @@ const Comment = ({ blogId }) => {
             if (token) {
                 const response = await axios.post("/api/comment", { comment, blogId }, { headers: { token: token } })
                 if (response.data.success) {
-                    toast.success(response.data.message)
                     setcomment('')
+                    fetchAllComments()
                 } else {
                     toast.error(response.data.message)
                 }
