@@ -26,9 +26,8 @@ export async function POST(req) {
         const title = formData.get("title");
         const content = formData.get("content");
         const category = formData.get("category");
-        console.log(category);
 
-
+        
         if (!file) throw new Error("No file uploaded");
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
