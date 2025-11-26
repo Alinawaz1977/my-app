@@ -9,10 +9,9 @@ export const AppContext = createContext({});
 const AppContextProvider = ({ children }) => {
     const [blogLists, setblogLists] = useState([])
     const [searchValue, setsearchValue] = useState('')
-    console.log(searchValue);
-
     const [allComments, setallComments] = useState([])
     const [token, settoken] = useState(null)
+     const [allCategories, setallCategories] = useState([])
     const fetchBlogData = async () => {
         try {
             const response = await axios.get("/api/listBlogs")
@@ -40,6 +39,24 @@ const AppContextProvider = ({ children }) => {
         }
     }
 
+    
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("/api/allCategories")
+      if (response.data.success) {
+        setallCategories(response.data.categories)
+      } else {
+        toast.error(response.data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories()
+  }, [blogLists])
+
     useEffect(() => {
         const savedToken = localStorage.getItem("token")
         if (savedToken) settoken(savedToken)
@@ -55,7 +72,7 @@ const AppContextProvider = ({ children }) => {
 
 
     const value = {
-        token, settoken, blogLists, allComments, searchValue, setsearchValue,fetchAllComments
+        token, settoken, blogLists, allComments, searchValue, setsearchValue,fetchAllComments,fetchCategories,allCategories,fetchBlogData
     };
     return (
         <AppContext.Provider value={value}>

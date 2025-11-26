@@ -34,7 +34,7 @@ const Navbar = () => {
     return (
         <div className='flex mx-4 my-3 border-b border-gray-300 pb-5 justify-between items-center' >
             <Link href={"/"} className='flex gap-1 items-center' >
-                <p className='text-[#7e39f2] text-4xl font-bold'>G</p> 
+                <p className='text-[#7e39f2] text-4xl font-bold'>G</p>
                 <p className='font-bold text-2xl' >Blog</p>
             </Link>
             <input onChange={(e) => setsearchValue(e.target.value)} className='outline-none border border-gray-300 rounded-full w-1/2 px-2 py-1' type="text" placeholder='seach anything' />

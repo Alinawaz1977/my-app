@@ -27,7 +27,7 @@ export async function POST(req) {
         const content = formData.get("content");
         const category = formData.get("category");
 
-        
+
         if (!file) throw new Error("No file uploaded");
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
@@ -41,7 +41,8 @@ export async function POST(req) {
             content,
             title,
             category,
-            featuredImage: cloudinaryUrl.secure_url
+            featuredImage: cloudinaryUrl.secure_url,
+            date: new Date()
         })
 
         return NextResponse.json({

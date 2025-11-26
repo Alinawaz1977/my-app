@@ -7,14 +7,17 @@ import Image from "next/image";
 import { onBlogActionSubmit } from "@/app/actions/AddBlogAction";
 import { toast } from "react-toastify";
 import { AppContext } from "@/context/AppContext";
-import { useRouter } from "next/navigation";
 import animationData from "@/public/Insider-loading.json"
 import Lottie from "lottie-react";
+import { useRouter } from "next/navigation";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const AddBlog = () => {
-  const { token } = useContext(AppContext)
+  const { token ,fetchCategories} = useContext(AppContext)
+  const [content, setContent] = useState("");
+  const [image, setimage] = useState('')
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -22,16 +25,11 @@ const AddBlog = () => {
     reset,
     formState: { isSubmitting, errors },
   } = useForm()
-  const [content, setContent] = useState("");
-  const [image, setimage] = useState('')
-  const router = useRouter()
-  console.log(image);
   const onSubmit = async (data) => {
     if (!token) {
       toast.error("You Need to Login ")
       return router.push("/login")
     }
-    console.log("asdfhoifdhi");
 
     const formData = new FormData();
     formData.append("title", data.title);
@@ -44,6 +42,7 @@ const AddBlog = () => {
       );
       if (response.data.success) {
         toast.success(response.data.message)
+        fetchCategories()
       } else {
         toast.error(response.data.error)
       }
@@ -55,7 +54,7 @@ const AddBlog = () => {
     setimage("")
   };
 
-  return (
+  return token? (
     <div className="p-6 ">
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-full md:w-[60vw] justify-center  flex-col gap-4">
         <input {...register("title")} placeholder="Title" className="border p-2 rounded" />
@@ -86,7 +85,7 @@ const AddBlog = () => {
         }
       </form>
     </div>
-  );
+  ):router.push("/login")
 };
 
 export default AddBlog;

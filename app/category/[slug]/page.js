@@ -10,18 +10,14 @@ import { useState, useEffect } from 'react'
 
 const page = () => {
   const { blogLists } = useContext(AppContext)
-  console.log(blogLists);
 
   const [categoryBlog, setcategoryBlog] = useState([])
-  console.log(categoryBlog);
 
   const params = useParams()
 
   const findCategoryBlog = () => {
     const categoryBlogs = blogLists.filter((item) => item.category.toLowerCase()==params.slug.toLowerCase())
     setcategoryBlog(categoryBlogs)
-    console.log(params.slug);
-
   }
   useEffect(() => {
     findCategoryBlog()

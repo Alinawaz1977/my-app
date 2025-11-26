@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
 
@@ -22,11 +23,11 @@ const page = () => {
     } = useForm()
 
     const { blogLists, token } = useContext(AppContext)
+  const router=useRouter()
     const [content, setcontent] = useState('')
 
     const [currentBlog, setcurrentBlog] = useState(null)
     const [newFeaturedImage, setnewFeaturedImage] = useState('')
-    // console.log(newFeaturedImage);
 
 
     const params = useParams()
@@ -64,13 +65,12 @@ const page = () => {
         formData.append("blogId",params.slug)
         try {
             const response = await axios.post("/api/userUpdateBlog", formData,{headers:{token:token}})
-            console.log(response.data);
         } catch (error) {
             toast.error(error.message)
         }
     }
 
-    return (
+    return token? (
         <>
             <Navbar />
             <div className='flex' >
@@ -106,7 +106,7 @@ const page = () => {
                 </form>
             </div>
         </>
-    )
+    ):router.push("/login")
 }
 
 export default page

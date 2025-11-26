@@ -13,6 +13,10 @@ const commentSchema = new mongoose.Schema({
     blogId: {
         type: String,
         required: true,
+    },
+    date:{
+        type:String,
+        required:true
     }
 })
 const commentModel = mongoose.models.Comment || mongoose.model("Comment", commentSchema)

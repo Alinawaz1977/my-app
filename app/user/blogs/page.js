@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const page = () => {
-  const { token, blogLists } = useContext(AppContext)
+  const { token, blogLists, fetchBlogData } = useContext(AppContext)
   const router = useRouter()
   const [userBlogs, setuserBlogs] = useState([])
 
@@ -20,7 +20,6 @@ const page = () => {
       if (response.data.success) {
         setuserBlogs(response.data.userBlogs)
       } else {
-        console.log("errir");
         toast.error(response.data.message)
       }
     }
@@ -34,6 +33,7 @@ const page = () => {
       const response = await axios.post("/api/userDeleteBlog", { blogId: id }, { headers: { token: token } })
       if (response.data.success) {
         toast.success(response.data.message)
+        fetchBlogData()
         fetchUserBlogs()
       } else {
         toast.error(response.data.message)
@@ -48,7 +48,7 @@ const page = () => {
     fetchUserBlogs()
   }, [token])
 
-  return (
+  return token ? (
     <div>
       <Navbar />
       <div className='flex' >
@@ -85,6 +85,7 @@ const page = () => {
       </div>
     </div>
   )
+    : router.push("/login")
 }
 
 export default page

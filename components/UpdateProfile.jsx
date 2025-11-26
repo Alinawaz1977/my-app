@@ -15,7 +15,6 @@
         const [userProfileData, setUserProfileData] = useState(null)
         const [loading, setLoading] = useState(false)
         const [image, setimage] = useState('')
-        // console.log(userProfileData);
 
         const {
             register,
@@ -26,7 +25,6 @@
         } = useForm()
 
         const onSubmit = async (data) => {
-            console.log(data);
             const formData = new FormData()
             formData.append("profilePic", data.profilePic[0])
             formData.append("username", data.username)
@@ -40,7 +38,7 @@
                     toast.error(response.data.error)
                 }
             } catch (error) {
-                console.log(error.message);
+                toast.error(error.message)
             }
         }
         useEffect(() => {
@@ -59,8 +57,6 @@
             try {
                 setLoading(true)
                 const response = await axios.post("/api/userProfile", {}, { headers: { token: token } })
-                console.log(response.data.message);
-
                 if (response.data.success) {
                     setUserProfileData(response.data.user)
                 } else {

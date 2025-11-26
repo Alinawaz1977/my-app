@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
 
-const ShowComment = ({ comment, commentUserLogo, commentUserName }) => {
+const ShowComment = ({ comment,commentDate, commentUserLogo, commentUserName }) => {
+    const localDate=new Date(commentDate).toLocaleDateString()
     return (
         <div>
             <div className='flex gap-2' >
@@ -10,7 +11,7 @@ const ShowComment = ({ comment, commentUserLogo, commentUserName }) => {
                     <p className='text-[13px]' >
                         {commentUserName}
                     </p>
-                    <p className='text-[13px]' >22-11-2025</p>
+                    <p className='text-[13px]' >{localDate}</p>
                     <p className='font-medium' >{comment}</p>
                 </div>
             </div>

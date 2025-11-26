@@ -11,7 +11,6 @@ export default function AuthForm() {
     const { token, settoken } = useContext(AppContext)
     const [isLogin, setIsLogin] = useState(true);
     const router = useRouter()
-    console.log(token);
     const {
         register,
         handleSubmit,
@@ -27,7 +26,7 @@ export default function AuthForm() {
                         toast.success(response.data.message)
                         settoken(response.data.token)
                         localStorage.setItem("token", response.data.token)
-                        console.log(localStorage.getItem("token"));
+                        router.push("/")
                     }
                     else {
                         toast.error(response.data.message)
@@ -37,7 +36,7 @@ export default function AuthForm() {
                 }
             } else {
                 try {
-                    const response = await axios.post("/api/userLogin", data)
+                    const response = await axios.post("/api/userLogin", data,)
                     if (response.data.success) {
                         toast.success(response.data.message)
                         settoken(response.data.token)

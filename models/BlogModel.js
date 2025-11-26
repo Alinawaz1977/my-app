@@ -22,9 +22,13 @@ const blogSchema = new mongoose.Schema({
         required: true,
         type: String,
     },
-    likes: {
-        type: Array,
+    date: {
+        type: String,
+        required: true
     },
+    like: {
+        type: Array
+    }
 }, { minimize: false })
 
 const blogModel = mongoose.models.blogpost || mongoose.model("blogpost", blogSchema)

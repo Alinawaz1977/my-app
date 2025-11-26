@@ -11,11 +11,12 @@ export async function POST(req) {
         return NextResponse.json({ success: false, message: userValidation.message })
     }
     try {
-        const { comment, blogId } = await req.json()        
+        const { comment, blogId } = await req.json()
         const comments = await commentModel.create({
             comment,
             blogId,
-            userId: userValidation.data.id
+            userId: userValidation.data.id,
+            date: new Date()
         })
         return NextResponse.json({ success: true, message: "successfull" })
     } catch (error) {
