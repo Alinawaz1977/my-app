@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const AddBlog = () => {
-  const { token ,fetchCategories} = useContext(AppContext)
+  const { token, fetchCategories } = useContext(AppContext)
   const [content, setContent] = useState("");
   const [image, setimage] = useState('')
   const router = useRouter()
@@ -53,7 +53,7 @@ const AddBlog = () => {
     setimage("")
   };
 
-  return token? (
+  return token ? (
     <div className="p-6 ">
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-full md:w-[60vw] justify-center  flex-col gap-4">
         <input {...register("title")} placeholder="Title" className="border p-2 rounded" />
@@ -84,7 +84,7 @@ const AddBlog = () => {
         }
       </form>
     </div>
-  ):router.push("/login")
+  ) : router.push("/login")
 };
 
 export default AddBlog;
