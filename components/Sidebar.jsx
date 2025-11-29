@@ -39,8 +39,8 @@ const Sidebar = () => {
         <p className='font-medium ' >Category</p>
         <div className='h-[70vh]  overflow-scroll' >
           {
-            allCategories.map((item) => (
-              <div onClick={() => { router.push(`/category/${item}`) }} className='flex items-center gap-2' >
+            allCategories.map((item, index) => (
+              <div key={index} onClick={() => { router.push(`/category/${item}`) }} className='flex items-center gap-2' >
                 <div className='h-2 w-2 border border-black rounded-full' ></div>
                 <p>{item} blogs</p>
               </div>

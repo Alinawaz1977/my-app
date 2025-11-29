@@ -11,7 +11,7 @@ const AppContextProvider = ({ children }) => {
     const [searchValue, setsearchValue] = useState('')
     const [allComments, setallComments] = useState([])
     const [token, settoken] = useState(null)
-     const [allCategories, setallCategories] = useState([])
+    const [allCategories, setallCategories] = useState([])
     const fetchBlogData = async () => {
         try {
             const response = await axios.get("/api/listBlogs")
@@ -39,23 +39,23 @@ const AppContextProvider = ({ children }) => {
         }
     }
 
-    
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get("/api/allCategories")
-      if (response.data.success) {
-        setallCategories(response.data.categories)
-      } else {
-        toast.error(response.data.message)
-      }
-    } catch (error) {
-      toast.error(error.message)
-    }
-  }
 
-  useEffect(() => {
-    fetchCategories()
-  }, [blogLists])
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get("/api/allCategories")
+            if (response.data.success) {
+                setallCategories(response.data.categories)
+            } else {
+                toast.error(response.data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    useEffect(() => {
+        fetchCategories()
+    }, [blogLists])
 
     useEffect(() => {
         const savedToken = localStorage.getItem("token")
@@ -72,7 +72,7 @@ const AppContextProvider = ({ children }) => {
 
 
     const value = {
-        token, settoken, blogLists, allComments, searchValue, setsearchValue,fetchAllComments,fetchCategories,allCategories,fetchBlogData
+        token, settoken, blogLists, allComments, searchValue, setsearchValue, fetchAllComments, fetchCategories, allCategories, fetchBlogData
     };
     return (
         <AppContext.Provider value={value}>

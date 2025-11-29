@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const AddBlog = () => {
-  const { token, fetchCategories } = useContext(AppContext)
+  const { token, fetchCategories, fetchBlogData } = useContext(AppContext)
   const [content, setContent] = useState("");
   const [image, setimage] = useState('')
   const router = useRouter()
@@ -42,6 +42,7 @@ const AddBlog = () => {
       if (response.data.success) {
         toast.success(response.data.message)
         fetchCategories()
+        fetchBlogData()
       } else {
         toast.error(response.data.error)
       }
@@ -57,8 +58,8 @@ const AddBlog = () => {
     <div className="p-6 ">
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-full md:w-[60vw] justify-center  flex-col gap-4">
         <input {...register("title")} placeholder="Title" className="border p-2 rounded" />
-        <label className="h-[20vw] relative flex justify-center items-center border border-dotted border-gray-500 w-[20vw]" htmlFor="featureImage">
-          {image ? <Image className="object-cover" fill={true} src={URL.createObjectURL(image)} alt="feaaturedImage" /> : <p></p>}
+        <label className="h-[20vw] relative flex justify-center items-center border border-dotted border-gray-500 w-[40vw]" htmlFor="featureImage">
+          {image ? <Image className="object-cover  " fill={true} src={URL.createObjectURL(image)} alt="feaaturedImage" /> : <p></p>}
           <input id="featureImage"  {...register("featuredImage")} type="file" className="border text-sm w-1/2 p-2   " onChange={(e) => setimage(e.target.files[0])}
           />
         </label>

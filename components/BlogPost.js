@@ -1,4 +1,5 @@
 "use client"
+import Image from 'next/image'
 import React from 'react'
 
 const BlogPost = ({ image, title, logo, date, username }) => {
@@ -11,8 +12,8 @@ const BlogPost = ({ image, title, logo, date, username }) => {
                     <img className='w-10 h-10 rounded-full object-top object-cover' src={logo} alt="logo" />
                     <p className='text-lg' >{username}</p>
                 </div>
-                <div>
-                    <img className='rounded-lg w-full  h-40 object-cover' src={image} alt="blog image" />
+                <div className='relative' >
+                    <Image width={200} height={100} className='rounded-lg w-full  h-40 object-cover' src={image} alt='blog image'  />
                 </div>
                 <div className='mt-3' >
                     <div>

@@ -40,7 +40,7 @@ const Navbar = () => {
             <input onChange={(e) => setsearchValue(e.target.value)} className='outline-none border border-gray-300 rounded-full w-1/2 px-2 py-1' type="text" placeholder='seach anything' />
             <div onClick={() => setvisible(!visible)}>
                 {token ? <div className='h-10 w-10 rounded-full  relative' >
-                    <Image src={userProfile.profilePic} fill={true} className='rounded-full object-cover' />
+                    <Image src={userProfile?.profilePic} fill={true} className='rounded-full object-cover' alt='userProfileImage' />
                     {visible ?
                         <div className='h-45 p-2 w-60 rounded-md flex flex-col bg-white border border-gray-200 shadow-2xl z-10 absolute left-[-200px]  bottom-[-180px]' >
                             <div>
