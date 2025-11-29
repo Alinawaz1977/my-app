@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Image from "next/image";
-import { onBlogActionSubmit } from "@/app/actions/AddBlogAction";
 import { toast } from "react-toastify";
 import { AppContext } from "@/context/AppContext";
 import animationData from "@/public/Insider-loading.json"
