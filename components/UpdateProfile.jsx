@@ -80,7 +80,7 @@
         }
 
         return (
-            <form onSubmit={handleSubmit(onSubmit)} className='w-full md:w-[60vw] overflow-hidden p-10 h-[80vh] border border-gray-200 shadow-sm relative  b' >
+            <form onSubmit={handleSubmit(onSubmit)} className='w-full md:w-[60vw] overflow-scroll p-10 h-[80vh] border border-gray-200 shadow-sm relative  b' >
                 <div className='flex justify-center items-center flex-col' >
                     <div className='relative h-30  w-30  ' >
                         <label htmlFor="profilepic">

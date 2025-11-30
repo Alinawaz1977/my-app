@@ -2,8 +2,10 @@
 import BlogPage from '@/components/BlogPage'
 import BlogPost from '@/components/BlogPost'
 import { AppContext } from '@/context/AppContext'
+import Lottie from 'lottie-react'
 import { useParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import animationData from "@/public/Insider-loading.json"
 
 import React, { useContext } from 'react'
 
@@ -42,7 +44,9 @@ const page = () => {
 
 
   if (!blog) {
-    return <div>Loading...</div>; // handle null state
+    return <div className='flex justify-center items-center h-screen w-full' >
+      <Lottie className='w-50' animationData={animationData} loop={true} />;
+    </div>
   }
 
   return (

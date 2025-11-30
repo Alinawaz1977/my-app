@@ -7,6 +7,7 @@ import React, { useContext } from 'react'
 import { toast } from 'react-toastify'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const page = () => {
   const { token, blogLists, fetchBlogData } = useContext(AppContext)
@@ -54,6 +55,9 @@ const page = () => {
       <div className='flex' >
         <Sidebar />
         <div className='w-full border mx-5 md:mx-0 h-[80vh] overflow-scroll border-gray-300 md:w-[70vw]' >
+          <div className='my-4 ' >
+      <Link href={"/user/addblog"} className='text-white px-3 py-1 rounded-md  bg-[#7e39f2] mx-2 roundedmd' >Add blog</Link>
+          </div>
           <div className='grid font-medium bg-gray-300 py-3 text-center px-2 grid-cols-5' >
             <p>Author</p>
             <p className='' >Title</p>
